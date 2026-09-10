@@ -7,6 +7,9 @@
         addToCart(id, name, price) {
             this.cart.push({ id, name, price });
         },
+        removeFromCart(id) {
+            this.cart = this.cart.filter(item => item.id !== id);
+        },
         subtotal() {
             return this.cart.reduce((sum, item) => sum + item.price, 0);
         }
@@ -23,7 +26,10 @@
         </div>
         <div class="mt-4 border-t pt-3">
             <template x-for="item in cart" :key="item.id">
-                <p x-text="item.name + '- Rp ' + item.price"></p>
+                <div class="flex justify-between items-center mb-2">
+                    <p x-text="item.name + ' - Rp ' + item.price"></p>
+                    <button @click="removeFromCart(item.id)" class="text-red-600 border border-red-600 px-2 py-1 rounded text-sm">Hapus</button>
+                </div>
             </template>
             ↪
             <p class="font-semibold mt-2">Subtotal: Rp <span x-text="subtotal()"></span></p>
