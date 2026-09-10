@@ -4,8 +4,10 @@
     <h1 class="text-lg font-semibold mb-4">Transaksi Kasir</h1>
     <div x-data="{
         cart: [],
+        selectedId: null,
         addToCart(id, name, price) {
             this.cart.push({ id, name, price });
+            this.selectedId = id;
         },
         removeFromCart(id) {
             this.cart = this.cart.filter(item => item.id !== id);
@@ -16,9 +18,9 @@
     }">
         <div class="grid grid-cols-3 gap-4">
             @foreach ($products as $product)
-                <div class="border rounded-md p-3 cursor-pointer" ↪
+                <div class="border rounded-md p-3 cursor-pointer transition-all"
+                    :class="{ 'ring-2 ring-blue-500': selectedId === {{ $product->id }} }"
                     @click="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }})">
-                    ↪
                     <div class="flex items-center gap-2">
                         <p class="font-medium">{{ $product->name }}</p>
                         @if ($product->stock < 10)
@@ -36,7 +38,6 @@
                     <button @click="removeFromCart(item.id)" class="text-red-600 border border-red-600 px-2 py-1 rounded text-sm">Hapus</button>
                 </div>
             </template>
-            ↪
             <p class="font-semibold mt-2">Subtotal: Rp <span x-text="subtotal()"></span></p>
         </div>
     </div>
