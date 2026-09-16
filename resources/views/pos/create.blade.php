@@ -20,7 +20,7 @@
             @foreach ($products as $product)
                 <div class="border rounded-md p-3 cursor-pointer transition-all"
                     :class="{ 'ring-2 ring-blue-500': selectedId === {{ $product->id }} }"
-                    @click="addToCart({{ $product->id }}, '{{ $product->name }}', {{ $product->price }})">
+                    @click="addToCart({{ $product->id }}, `{{ $product->name }}`, {{ $product->price }})">
                     <div class="flex items-center gap-2">
                         <p class="font-medium">{{ $product->name }}</p>
                         @if ($product->stock < 10)
@@ -32,10 +32,10 @@
             @endforeach
         </div>
         <div class="mt-4 border-t pt-3">
-            <template x-for="item in cart" :key="item.id">
+            <template x-for="(item, index) in cart" :key="index">
                 <div class="flex justify-between items-center mb-2">
                     <p x-text="item.name + ' - Rp ' + item.price"></p>
-                    <button @click="removeFromCart(item.id)" class="text-red-600 border border-red-600 px-2 py-1 rounded text-sm">Hapus</button>
+                    <button @click="cart.splice(index, 1)" class="text-red-600 border border-red-600 px-2 py-1 rounded text-sm">Hapus</button>
                 </div>
             </template>
             <p class="font-semibold mt-2">Subtotal: Rp <span x-text="subtotal()"></span></p>
