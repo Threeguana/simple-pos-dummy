@@ -39,6 +39,8 @@ class TransactionController extends Controller
                     'qty' => $item['qty'],
                     'subtotal' => $subtotal,
                 ]);
+
+                $product->decrement('stock', $item['qty']);
             }
 
             $transaction->update(['total' => $total]);
