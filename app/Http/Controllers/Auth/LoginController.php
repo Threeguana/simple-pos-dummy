@@ -23,22 +23,26 @@ class LoginController extends Controller
         ]);
 
         if (! Auth::attempt($credentials)) {
-            return back()->withErrors([
-                'email' => 'Email atau kata sandi salah.',
-            ])->onlyInput('email');
+            return back()
+                ->withErrors([
+                    'email' => 'Email atau kata sandi salah.',
+                ])
+                ->onlyInput('email');
         }
 
         if (! Auth::user()->is_active) {
             Auth::logout();
 
-            return back()->withErrors([
-                'email' => 'Akun dinonaktifkan. Hubungi admin.',
-            ])->onlyInput('email');
+            return back()
+                ->withErrors([
+                    'email' => 'Akun dinonaktifkan. Hubungi admin.',
+                ])
+                ->onlyInput('email');
         }
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('pos.create'));
+        return redirect()->route('pos.create');
     }
 
     public function destroy(Request $request): RedirectResponse
